@@ -26,6 +26,9 @@ namespace OrderService.Infrastructure
 
             services.AddHostedService<ReservationCreatedSingleConsumer>();
 
+            services.AddHostedService<ReservationCreatedParallelConsumer>();
+
+
             return services;
         }
     }

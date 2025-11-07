@@ -28,14 +28,14 @@ namespace OrderService.Application.Orders.Handlers
                 return Guid.Empty;
 
             var (price, discount) = await _pricing.GetPriceAsync(request.ProductId, ct);
+
             var discountedPrice = price - (price * discount);
             var total = discountedPrice * request.Quantity;
 
             var order = new Order
             {
                 Id = Guid.NewGuid(),
-                UserId = request.UserId,
-                CartId = Guid.Empty,          
+                UserId = request.UserId,       
                 Total = total,
                 OrderStatus = "PendingPayment",
                 CreatedAt = DateTime.UtcNow,

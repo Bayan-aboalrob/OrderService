@@ -35,7 +35,7 @@ namespace OrderService.Application.Orders.Handlers
             var order = new Order
             {
                 Id = Guid.NewGuid(),
-                UserId = request.UserId,       
+                UserId = request.UserId,
                 Total = total,
                 OrderStatus = "PendingPayment",
                 CreatedAt = DateTime.UtcNow,

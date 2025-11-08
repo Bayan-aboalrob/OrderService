@@ -25,9 +25,10 @@ namespace OrderService.Infrastructure
             services.AddSingleton<IBusPublisher, RabbitMqPublisher>();
 
             services.AddHostedService<ReservationCreatedSingleConsumer>();
-
             services.AddHostedService<ReservationCreatedParallelConsumer>();
 
+            // NEW
+            services.AddHostedService<PaymentSucceededSingleConsumer>();
 
             return services;
         }

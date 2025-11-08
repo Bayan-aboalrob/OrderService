@@ -6,6 +6,7 @@ namespace OrderService.Application.Orders.Commands
         Guid ReservationId,
         Guid UserId,
         Guid ProductId,
+        Guid CartId,
         int Quantity,
         DateTime ExpiryTimeUtc,
         string? CorrelationId

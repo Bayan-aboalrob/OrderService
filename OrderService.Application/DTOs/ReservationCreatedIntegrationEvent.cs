@@ -12,7 +12,10 @@ namespace OrderService.Application.Dtos
 
         [JsonPropertyName("productId")]
         public Guid ProductId { get; set; }
-
+        
+        [JsonPropertyName("cartId")]
+        public Guid CartId { get; set; }
+        
         [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
 

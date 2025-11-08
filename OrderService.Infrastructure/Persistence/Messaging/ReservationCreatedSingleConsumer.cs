@@ -84,6 +84,7 @@ namespace OrderService.Infrastructure.Messaging
                     msg.Id,
                     msg.UserId,
                     msg.ProductId,
+                    msg.CartId,
                     msg.Quantity,
                     msg.ExpiryTimeUtc,
                     msg.CorrelationId

@@ -1,10 +1,10 @@
 ﻿using System.Text;
 using System.Text.Json;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using OrderService.Application.Dtos;
 using OrderService.Application.Orders.Commands;
 using RabbitMQ.Client;
@@ -12,16 +12,16 @@ using RabbitMQ.Client.Events;
 
 namespace OrderService.Infrastructure.Messaging
 {
-    internal sealed class ReservationCreatedSingleConsumer : BackgroundService
+    internal sealed class ReservationCartCreatedConsumer : BackgroundService
     {
-        private readonly ILogger<ReservationCreatedSingleConsumer> _log;
+        private readonly ILogger<ReservationCartCreatedConsumer> _log;
         private readonly IServiceProvider _sp;
         private readonly IConnection _conn;
         private readonly IModel _ch;
         private readonly string _queue;
 
-        public ReservationCreatedSingleConsumer(
-            ILogger<ReservationCreatedSingleConsumer> log,
+        public ReservationCartCreatedConsumer(
+            ILogger<ReservationCartCreatedConsumer> log,
             IServiceProvider sp,
             IConfiguration cfg)
         {
@@ -39,7 +39,7 @@ namespace OrderService.Infrastructure.Messaging
                 DispatchConsumersAsync = true
             };
 
-            _conn = factory.CreateConnection("order-consumer");
+            _conn = factory.CreateConnection("order-reservation-cart-consumer");
             _ch = _conn.CreateModel();
 
             var exchange = section["Exchange"] ?? "flashsale.topic";
@@ -47,10 +47,10 @@ namespace OrderService.Infrastructure.Messaging
 
             _ch.ExchangeDeclare(exchange, exchangeType, durable: true);
 
-            _queue = "order.reservation-created.v1";
+            _queue = "order.reservation-cart-created.v1";
             _ch.QueueDeclare(_queue, durable: true, exclusive: false, autoDelete: false);
 
-            _ch.QueueBind(_queue, exchange, "Reservation.Created");
+            _ch.QueueBind(_queue, exchange, "Reservation.CartCreated");
 
             _ch.BasicQos(0, 1, false);
         }
@@ -60,7 +60,7 @@ namespace OrderService.Infrastructure.Messaging
             var consumer = new AsyncEventingBasicConsumer(_ch);
             consumer.Received += OnMessageAsync;
             _ch.BasicConsume(_queue, autoAck: false, consumer);
-            _log.LogInformation("OrderService consumer started and waiting for Reservation.Created...");
+            _log.LogInformation("OrderService listening to Reservation.CartCreated ...");
             return Task.CompletedTask;
         }
 
@@ -69,9 +69,10 @@ namespace OrderService.Infrastructure.Messaging
             try
             {
                 var json = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var msg = JsonSerializer.Deserialize<ReservationCreatedIntegrationEvent>(json);
+                var msg = JsonSerializer.Deserialize<ReservationCartCreatedIntegrationEvent>(json,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                if (msg == null)
+                if (msg is null)
                 {
                     _ch.BasicAck(ea.DeliveryTag, false);
                     return;
@@ -80,21 +81,19 @@ namespace OrderService.Infrastructure.Messaging
                 using var scope = _sp.CreateScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                await mediator.Send(new CreateOrderFromReservationCommand(
-                    msg.Id,
-                    msg.UserId,
-                    msg.ProductId,
+                await mediator.Send(new CreateOrderFromCartReservationCommand(
                     msg.CartId,
-                    msg.Quantity,
-                    msg.ExpiryTimeUtc,
-                    msg.CorrelationId
-                ));
+                    msg.UserId,
+                    msg.ExpiresAtUtc,
+                    msg.CorrelationId,
+                    msg.Reservations
+                ), CancellationToken.None);
 
                 _ch.BasicAck(ea.DeliveryTag, false);
             }
             catch (Exception ex)
             {
-                _log.LogError(ex, "Error while handling Reservation.Created");
+                _log.LogError(ex, "Error while handling Reservation.CartCreated");
                 _ch.BasicNack(ea.DeliveryTag, false, requeue: false);
             }
         }

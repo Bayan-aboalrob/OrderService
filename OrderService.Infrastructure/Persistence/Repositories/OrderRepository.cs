@@ -23,5 +23,7 @@ namespace OrderService.Infrastructure.Persistence.Repositories
 
         public Task SaveChangesAsync(CancellationToken ct = default)
             => _db.SaveChangesAsync(ct);
+        public Task<bool> ExistsForCartAsync(Guid cartId, CancellationToken ct = default)
+            => Orders.AnyAsync(o => o.CartId == cartId, ct);
     }
 }

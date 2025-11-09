@@ -24,11 +24,10 @@ namespace OrderService.Infrastructure
 
             services.AddSingleton<IBusPublisher, RabbitMqPublisher>();
 
-            services.AddHostedService<ReservationCreatedSingleConsumer>();
-            services.AddHostedService<ReservationCreatedParallelConsumer>();
+            services.AddHostedService<ReservationCartCreatedConsumer>();
 
-            // NEW
             services.AddHostedService<PaymentSucceededSingleConsumer>();
+
 
             return services;
         }

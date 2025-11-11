@@ -15,7 +15,6 @@
     <Folder Include="Common\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Profiles\" />
-    <Folder Include="Queries\" />
     <Folder Include="Services\" />
     <Folder Include="Validators\" />
   </ItemGroup>

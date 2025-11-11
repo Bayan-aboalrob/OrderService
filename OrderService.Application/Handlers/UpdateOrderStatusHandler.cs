@@ -22,6 +22,8 @@ namespace OrderService.Application.Handlers
                 return Unit.Value;
 
             order.OrderStatus = request.NewStatus;
+            order.UpdatedAt = DateTime.UtcNow;
+
             await _orders.SaveChangesAsync(ct);
 
             return Unit.Value;

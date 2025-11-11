@@ -23,6 +23,9 @@ namespace OrderService.Infrastructure.Persistence.Repositories
 
         public Task SaveChangesAsync(CancellationToken ct = default)
             => _db.SaveChangesAsync(ct);
+        public Task<Order?> GetByReservationIdAsync(Guid reservationId, CancellationToken ct = default)
+           => Orders.FirstOrDefaultAsync(o => o.ReservationId == reservationId, ct);
+
         public Task<bool> ExistsForCartAsync(Guid cartId, CancellationToken ct = default)
             => Orders.AnyAsync(o => o.CartId == cartId, ct);
     }

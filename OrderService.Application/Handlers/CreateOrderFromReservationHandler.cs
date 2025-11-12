@@ -2,6 +2,7 @@
 using OrderService.Application.Contracts;
 using OrderService.Application.Dtos;
 using OrderService.Application.Orders.Commands;
+using OrderService.Application.Services;
 
 namespace OrderService.Application.Orders.Handlers
 {
@@ -15,13 +16,16 @@ namespace OrderService.Application.Orders.Handlers
     {
         private readonly IOrderRepository _orders;
         private readonly IBusPublisher _bus;
+        private readonly IHttpClientUtils _httpClient;
 
         public CreateOrderFromReservationHandler(
             IOrderRepository orders,
-            IBusPublisher bus)
+            IBusPublisher bus,
+            IHttpClientUtils httpClient)
         {
             _orders = orders;
             _bus = bus;
+            _httpClient = httpClient;
         }
 
         public async Task<CreateOrderFromReservationResponse> Handle(
@@ -53,6 +57,9 @@ namespace OrderService.Application.Orders.Handlers
 
             await _orders.AddAsync(order, ct);
             await _orders.SaveChangesAsync(ct);
+            
+            //https://localhost/inventory/
+            await _httpClient.SendPostRequest("http://localhost/inventory/api/v1/inventory/cache/apply-order", new { orderId = order.Id });
 
             return new CreateOrderFromReservationResponse(
                 OrderId: order.Id,

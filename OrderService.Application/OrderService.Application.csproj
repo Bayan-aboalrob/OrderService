@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\FlashSaleDB\FlashSaleDB\FlashSaleDB.csproj" />
+    <ProjectReference Include="..\..\FlashSaleDB\FlashSaleDB\FlashSaleDB.csproj" />
     <ProjectReference Include="..\OrderService.Domain\OrderService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="NewDirectory1\" />
     <Folder Include="Profiles\" />
-    <Folder Include="Services\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

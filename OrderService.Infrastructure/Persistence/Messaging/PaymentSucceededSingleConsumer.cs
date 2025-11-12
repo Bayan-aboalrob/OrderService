@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿// Consumer 1
+using System.Text;
 using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -47,7 +48,8 @@ namespace OrderService.Infrastructure.Messaging
             var exchangeType = section["ExchangeType"] ?? "topic";
             _ch.ExchangeDeclare(exchange, exchangeType, durable: true);
 
-            _queue = "order.payment-succeeded.v1";
+            // ✅ Unique queue name for consumer #1
+            _queue = "order.payment-succeeded.orderservice.v1";
             _ch.QueueDeclare(_queue, durable: true, exclusive: false, autoDelete: false);
 
             _ch.QueueBind(_queue, exchange, "Payment.Succeeded");

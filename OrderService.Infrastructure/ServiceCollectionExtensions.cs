@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderService.Application.Contracts;
+using OrderService.Application.Services;
 using OrderService.Infrastructure.Messaging;
 using OrderService.Infrastructure.Persistence.Repositories;
 using OrderService.Infrastructure.Services;
@@ -21,6 +22,7 @@ namespace OrderService.Infrastructure
 
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductPricingService, ProductPricingService>();
+            services.AddScoped<IHttpClientUtils, HttpClientUtils>();
 
             services.AddSingleton<IBusPublisher, RabbitMqPublisher>();
 

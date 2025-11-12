@@ -47,7 +47,7 @@ namespace OrderService.Infrastructure.Messaging
 
             _ch.ExchangeDeclare(exchange, exchangeType, durable: true);
 
-            _queue = "order.reservation-cart-created.v1";
+            _queue = "order.reservation-created.v1";
             _ch.QueueDeclare(_queue, durable: true, exclusive: false, autoDelete: false);
 
             _ch.QueueBind(_queue, exchange, "Reservation.CartCreated");

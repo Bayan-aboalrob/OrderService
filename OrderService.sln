@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Application", "OrderService.Application\OrderService.Application.csproj", "{071F3DE6-6E93-40C2-BA55-FBCC3E19CDCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashSaleDB", "..\..\..\..\FlashSaleDB\FlashSaleDB\FlashSaleDB.csproj", "{22FEC91C-0076-4E95-84BC-7C887765FEB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashSaleDB", "..\FlashSaleDB\FlashSaleDB\FlashSaleDB.csproj", "{65319D35-75D3-4B97-8C59-44B2A7289CDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{071F3DE6-6E93-40C2-BA55-FBCC3E19CDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{071F3DE6-6E93-40C2-BA55-FBCC3E19CDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{071F3DE6-6E93-40C2-BA55-FBCC3E19CDCF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22FEC91C-0076-4E95-84BC-7C887765FEB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22FEC91C-0076-4E95-84BC-7C887765FEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22FEC91C-0076-4E95-84BC-7C887765FEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22FEC91C-0076-4E95-84BC-7C887765FEB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65319D35-75D3-4B97-8C59-44B2A7289CDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65319D35-75D3-4B97-8C59-44B2A7289CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65319D35-75D3-4B97-8C59-44B2A7289CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65319D35-75D3-4B97-8C59-44B2A7289CDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 using OrderService.Application;
 using OrderService.Infrastructure;
+using OrderService.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddHttpClient();
+
+builder.Services.AddHostedService<InfluxMetricsCollector>();
 
 var app = builder.Build();
 
